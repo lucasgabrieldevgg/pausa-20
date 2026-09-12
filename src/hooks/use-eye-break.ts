@@ -2,7 +2,13 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { getRandomChallenge, type Challenge } from '@/lib/challenges'
-import { playChime, playSuccess } from '@/lib/sound'
+import {
+  isAlarmSoundId,
+  playAlarm,
+  playSuccess,
+  stopAlarm,
+  type AlarmSoundId,
+} from '@/lib/sound'
 
 export type BreakMode = 'challenge' | 'simple'
 
@@ -17,6 +23,8 @@ export interface EyeBreakSettings {
   intervalMinutes: number
   mode: BreakMode
   sound: boolean
+  /** qual alarme tocar quando o ciclo terminar */
+  alarmSound: AlarmSoundId
   notifications: boolean
   /** ids de desafios desativados pelo usuário (os demais participam do sorteio) */
   disabledChallenges: number[]
@@ -26,6 +34,7 @@ const DEFAULT_SETTINGS: EyeBreakSettings = {
   intervalMinutes: 20,
   mode: 'challenge',
   sound: true,
+  alarmSound: 'classico',
   notifications: false,
   disabledChallenges: [],
 }
@@ -53,6 +62,9 @@ function loadSettings(): EyeBreakSettings {
         typeof parsed.intervalMinutes === 'number'
           ? Math.min(60, Math.max(1, parsed.intervalMinutes))
           : DEFAULT_SETTINGS.intervalMinutes,
+      alarmSound: isAlarmSoundId(parsed.alarmSound)
+        ? parsed.alarmSound
+        : DEFAULT_SETTINGS.alarmSound,
       disabledChallenges: Array.isArray(parsed.disabledChallenges)
         ? parsed.disabledChallenges.filter(
             (n): n is number => typeof n === 'number'
@@ -141,7 +153,7 @@ export function useEyeBreak() {
 
   const triggerAlert = useCallback(() => {
     const s = settingsRef.current
-    if (s.sound) playChime()
+    if (s.sound) playAlarm(s.alarmSound)
     if (
       s.notifications &&
       typeof window !== 'undefined' &&
@@ -228,12 +240,14 @@ export function useEyeBreak() {
 
   const snooze = useCallback(
     (minutes: number) => {
+      stopAlarm()
       startCycle(minutes)
     },
     [startCycle]
   )
 
   const startBreak = useCallback(() => {
+    stopAlarm()
     setChallenge(
       getRandomChallenge(challenge?.id, settingsRef.current.disabledChallenges)
     )
@@ -241,6 +255,7 @@ export function useEyeBreak() {
   }, [challenge?.id])
 
   const completeBreak = useCallback(() => {
+    stopAlarm()
     if (settingsRef.current.sound) playSuccess()
     setBreaksToday((prev) => prev + 1)
     setChallenge(null)
@@ -248,6 +263,7 @@ export function useEyeBreak() {
   }, [startCycle])
 
   const skipBreak = useCallback(() => {
+    stopAlarm()
     setChallenge(null)
     startCycle() // segue para o próximo ciclo mesmo pulando
   }, [startCycle])

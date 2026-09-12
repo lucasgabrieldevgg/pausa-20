@@ -4,6 +4,7 @@ import {
   Bell,
   BellOff,
   FlaskConical,
+  Play,
   Settings,
   Volume2,
   VolumeX,
@@ -30,7 +31,7 @@ import {
 import { Switch } from '@/components/ui/switch'
 import { CHALLENGES } from '@/lib/challenges'
 import type { EyeBreakSettings } from '@/hooks/use-eye-break'
-import { primeAudio } from '@/lib/sound'
+import { ALARM_SOUNDS, previewAlarm, primeAudio, type AlarmSoundId } from '@/lib/sound'
 
 interface SettingsPanelProps {
   settings: EyeBreakSettings
@@ -200,25 +201,70 @@ export function SettingsPanel({
           </div>
 
           {/* Som */}
-          <div className="flex items-center justify-between rounded-lg border p-4">
-            <div className="flex items-center gap-3">
-              {settings.sound ? (
-                <Volume2 className="h-4 w-4 text-primary" aria-hidden="true" />
-              ) : (
-                <VolumeX className="h-4 w-4" aria-hidden="true" />
-              )}
-              <div className="space-y-0.5">
-                <Label htmlFor="sound">Som</Label>
+          <div className="space-y-3 rounded-lg border p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                {settings.sound ? (
+                  <Volume2 className="h-4 w-4 text-primary" aria-hidden="true" />
+                ) : (
+                  <VolumeX className="h-4 w-4" aria-hidden="true" />
+                )}
+                <div className="space-y-0.5">
+                  <Label htmlFor="sound">Som</Label>
+                  <p className="text-xs text-muted-foreground">
+                    Alarme quando o ciclo terminar
+                  </p>
+                </div>
+              </div>
+              <Switch
+                id="sound"
+                checked={settings.sound}
+                onCheckedChange={(checked) => onChange({ sound: checked })}
+              />
+            </div>
+
+            {settings.sound && (
+              <div className="space-y-2 border-t pt-3">
+                <Label htmlFor="alarm-sound">Som do alarme</Label>
+                <div className="flex gap-2">
+                  <Select
+                    value={settings.alarmSound}
+                    onValueChange={(value) => {
+                      onChange({ alarmSound: value as AlarmSoundId })
+                      // toca na hora para a pessoa ouvir como ficou
+                      primeAudio()
+                      previewAlarm(value as AlarmSoundId)
+                    }}
+                  >
+                    <SelectTrigger id="alarm-sound" className="w-full">
+                      <SelectValue placeholder="Escolha o som" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {ALARM_SOUNDS.map((s) => (
+                        <SelectItem key={s.id} value={s.id}>
+                          {s.emoji} {s.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    aria-label="Ouvir prévia do som do alarme"
+                    onClick={() => {
+                      primeAudio()
+                      previewAlarm(settings.alarmSound)
+                    }}
+                  >
+                    <Play className="h-4 w-4" aria-hidden="true" />
+                  </Button>
+                </div>
                 <p className="text-xs text-muted-foreground">
-                  Campainha suave no aviso
+                  O alarme repete por alguns segundos — clique em qualquer
+                  lugar para interromper. Toque no ▶ para ouvir a prévia.
                 </p>
               </div>
-            </div>
-            <Switch
-              id="sound"
-              checked={settings.sound}
-              onCheckedChange={(checked) => onChange({ sound: checked })}
-            />
+            )}
           </div>
 
           {/* Notificações */}

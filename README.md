@@ -15,7 +15,7 @@ A cada **20 minutos** (ou menos), olhe para algo a pelo menos **20 pés** (~6 me
 - ⏱️ **Timer inteligente** — contagem por timestamp, continua precisa mesmo com a aba em segundo plano
 - 🎯 **Modo desafio** — ao fim de cada ciclo, um desafio aleatório aparece com contagem de 20 segundos
 - ✅ **Desafios personalizados** — marque/desmarque os 12 desafios para usar só o que você consegue fazer no seu ambiente (mínimo de 1 ativo)
-- 🔔 **Avisos** — som sintetizado, notificação do navegador e título da aba com o tempo restante
+- 🔔 **Alarme que você escuta** — som no fim do ciclo, repetindo até você interagir; escolha entre 4 alarmes (clássico, campainha, sino e melodia) e ouça a prévia nas configurações. Vem ativado, e você pode desligar
 - 🙁 **Só avisar** — prefere sem desafios? Um banner discreto aparece no canto
 - 😴 **Soneca** — adie o próximo aviso em 5 minutos quando estiver no meio de algo importante
 - 📊 **Progresso do dia** — contador de pausas concluídas
