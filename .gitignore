@@ -38,3 +38,7 @@ Caddyfile
 *.pem
 *.tsbuildinfo
 .vercel
+
+# Artefatos de sessão (nunca versionar)
+/tool-results/
+/learnflow/
