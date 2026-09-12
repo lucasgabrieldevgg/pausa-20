@@ -1,0 +1,40 @@
+# Dependências
+/node_modules
+/.pnp
+.pnp.*
+
+# Builds
+/.next/
+/out/
+/build
+next-env.d.ts
+
+# Logs
+*.log
+
+# Ambientes e segredos
+.env*
+!.env.example
+
+# Banco local (sandbox)
+/db/
+
+# Infra e utilitários do ambiente local
+/.zscripts/
+Caddyfile
+/examples/
+/tests/
+/worklog.md
+/download/
+/scripts/
+/agent-ctx/
+/skills/
+/mini-services/
+/upload/
+/.claude/
+
+# Diversos
+.DS_Store
+*.pem
+*.tsbuildinfo
+.vercel
