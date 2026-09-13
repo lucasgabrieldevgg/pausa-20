@@ -12,6 +12,26 @@ import {
 
 export type BreakMode = 'challenge' | 'simple'
 
+/**
+ * Por quanto tempo o alarme repete:
+ *  - 5…60 → toca por essa quantidade de segundos
+ *  - 'until-off' → repete sem parar até a pessoa interagir (desligar)
+ */
+export type AlarmDuration = 5 | 10 | 15 | 30 | 60 | 'until-off'
+
+const ALARM_DURATION_VALUES: readonly AlarmDuration[] = [
+  5,
+  10,
+  15,
+  30,
+  60,
+  'until-off',
+]
+
+export function isAlarmDuration(value: unknown): value is AlarmDuration {
+  return (ALARM_DURATION_VALUES as readonly unknown[]).includes(value)
+}
+
 export type TimerStatus =
   | 'idle' // parado, nunca iniciado
   | 'running' // contando para a próxima pausa
@@ -25,6 +45,8 @@ export interface EyeBreakSettings {
   sound: boolean
   /** qual alarme tocar quando o ciclo terminar */
   alarmSound: AlarmSoundId
+  /** por quanto tempo o alarme repete (segundos) ou até ser desligado */
+  alarmDuration: AlarmDuration
   notifications: boolean
   /** ids de desafios desativados pelo usuário (os demais participam do sorteio) */
   disabledChallenges: number[]
@@ -35,6 +57,7 @@ const DEFAULT_SETTINGS: EyeBreakSettings = {
   mode: 'challenge',
   sound: true,
   alarmSound: 'classico',
+  alarmDuration: 'until-off',
   notifications: false,
   disabledChallenges: [],
 }
@@ -65,6 +88,9 @@ function loadSettings(): EyeBreakSettings {
       alarmSound: isAlarmSoundId(parsed.alarmSound)
         ? parsed.alarmSound
         : DEFAULT_SETTINGS.alarmSound,
+      alarmDuration: isAlarmDuration(parsed.alarmDuration)
+        ? parsed.alarmDuration
+        : DEFAULT_SETTINGS.alarmDuration,
       disabledChallenges: Array.isArray(parsed.disabledChallenges)
         ? parsed.disabledChallenges.filter(
             (n): n is number => typeof n === 'number'
@@ -153,7 +179,12 @@ export function useEyeBreak() {
 
   const triggerAlert = useCallback(() => {
     const s = settingsRef.current
-    if (s.sound) playAlarm(s.alarmSound)
+    if (s.sound) {
+      playAlarm(
+        s.alarmSound,
+        s.alarmDuration === 'until-off' ? undefined : s.alarmDuration * 1000
+      )
+    }
     if (
       s.notifications &&
       typeof window !== 'undefined' &&

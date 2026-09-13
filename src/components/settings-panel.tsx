@@ -30,7 +30,7 @@ import {
 } from '@/components/ui/sheet'
 import { Switch } from '@/components/ui/switch'
 import { CHALLENGES } from '@/lib/challenges'
-import type { EyeBreakSettings } from '@/hooks/use-eye-break'
+import type { AlarmDuration, EyeBreakSettings } from '@/hooks/use-eye-break'
 import { ALARM_SOUNDS, previewAlarm, primeAudio, type AlarmSoundId } from '@/lib/sound'
 
 interface SettingsPanelProps {
@@ -43,6 +43,18 @@ interface SettingsPanelProps {
 }
 
 const INTERVALS = [5, 10, 15, 20, 30, 45, 60] as const
+
+const ALARM_DURATION_OPTIONS: ReadonlyArray<{
+  value: AlarmDuration
+  label: string
+}> = [
+  { value: 'until-off', label: '🔁 Toca até eu desligar' },
+  { value: 5, label: '5 segundos' },
+  { value: 10, label: '10 segundos' },
+  { value: 15, label: '15 segundos' },
+  { value: 30, label: '30 segundos' },
+  { value: 60, label: '1 minuto' },
+]
 
 export function SettingsPanel({
   settings,
@@ -260,8 +272,37 @@ export function SettingsPanel({
                   </Button>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  O alarme repete por alguns segundos — clique em qualquer
-                  lugar para interromper. Toque no ▶ para ouvir a prévia.
+                  Toque no ▶ para ouvir a prévia. Qualquer clique ou tecla
+                  interrompe o alarme na hora.
+                </p>
+
+                <Label htmlFor="alarm-duration">Duração do alarme</Label>
+                <Select
+                  value={String(settings.alarmDuration)}
+                  onValueChange={(value) =>
+                    onChange({
+                      alarmDuration:
+                        value === 'until-off'
+                          ? 'until-off'
+                          : (Number(value) as AlarmDuration),
+                    })
+                  }
+                >
+                  <SelectTrigger id="alarm-duration" className="w-full">
+                    <SelectValue placeholder="Escolha a duração" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {ALARM_DURATION_OPTIONS.map((opt) => (
+                      <SelectItem key={String(opt.value)} value={String(opt.value)}>
+                        {opt.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-muted-foreground">
+                  {settings.alarmDuration === 'until-off'
+                    ? 'O alarme repete sem parar até você clicar em qualquer lugar da página.'
+                    : 'O alarme repete pelo tempo escolhido — e um clique interrompe antes, se você quiser.'}
                 </p>
               </div>
             )}
