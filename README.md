@@ -2,6 +2,9 @@
 
 **Lembrete periódico para descansar os olhos — regra 20-20-20 com desafios personalizados.**
 
+[![ci](https://github.com/lucasgabrieldevgg/pausa-20/actions/workflows/ci.yml/badge.svg)](https://github.com/lucasgabrieldevgg/pausa-20/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 > 🔗 **Teste agora: [https://pausa-20.vercel.app](https://pausa-20.vercel.app)**
 
 Deixe a aba aberta e o Pausa 20 te avisa periodicamente para tirar os olhos da tela — ou te manda um desafio rápido para cumprir na hora.
@@ -46,3 +49,15 @@ Abra [http://localhost:3000](http://localhost:3000).
 ## ☁️ Deploy
 
 Hospedado na [Vercel](https://vercel.com) → **https://pausa-20.vercel.app**
+
+## 🧪 Desenvolvimento
+
+```
+bun install && bunx prisma generate && bun run lint && bun run build
+```
+
+O CI roda o pipeline completo a cada push (lockfile congelado → cliente Prisma → ESLint → build do Next como smoke real + higiene contra segredos).
+
+## 🎨 Identidade — RESPIRO (operação CRA)
+
+**Quicksand** (arredondada e calma — a cara de quem manda descansar) no app, **JetBrains Mono** no relógio e números tabulares. Zero fonte-default-de-template (Geist/Inter).

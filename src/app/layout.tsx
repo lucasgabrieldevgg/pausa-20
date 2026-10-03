@@ -1,17 +1,21 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Quicksand, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Identidade RESPIRO: Quicksand (arredondada, calma — app de pausa/descanso)
+// + JetBrains Mono (relógio e números tabulares). Zero fonte-default de template.
+const quicksand = Quicksand({
+  variable: "--font-quicksand",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jbm = JetBrains_Mono({
+  variable: "--font-jbm",
   subsets: ["latin"],
+  weight: ["400", "500", "700"],
 });
 
 export const metadata: Metadata = {
@@ -51,7 +55,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+        className={`${quicksand.variable} ${jbm.variable} antialiased bg-background text-foreground`}
       >
         <ThemeProvider
           attribute="class"
