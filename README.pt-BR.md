@@ -1,0 +1,65 @@
+[🇺🇸 English](README.md)
+
+# Pausa 20 👁️
+
+**Lembrete periódico para descansar os olhos — regra 20-20-20 com desafios personalizados.**
+
+[![ci](https://github.com/lucasgabrieldevgg/pausa-20/actions/workflows/ci.yml/badge.svg)](https://github.com/lucasgabrieldevgg/pausa-20/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+> 🔗 **Teste agora: [https://pausa-20.vercel.app](https://pausa-20.vercel.app)**
+
+Deixe a aba aberta e o Pausa 20 te avisa periodicamente para tirar os olhos da tela — ou te manda um desafio rápido para cumprir na hora.
+
+## 💡 A regra 20-20-20
+
+A cada **20 minutos** (ou menos), olhe para algo a pelo menos **20 pés** (~6 metros) de distância por **20 segundos** — no mínimo. Ficar muito tempo sem pausar cansa a vista e pode causar síndrome visual do computador (olhos secos, visão embaçada, dor de cabeça).
+
+## ✨ Funcionalidades
+
+- ⏱️ **Timer inteligente** — contagem por timestamp, continua precisa mesmo com a aba em segundo plano
+- 🎯 **Modo desafio** — ao fim de cada ciclo, um desafio aleatório aparece com contagem de 20 segundos
+- ✅ **Desafios personalizados** — marque/desmarque os 12 desafios para usar só o que você consegue fazer no seu ambiente (mínimo de 1 ativo)
+- 🔔 **Alarme que você escuta** — som no fim do ciclo, repetindo até você interagir; escolha entre 4 alarmes (clássico, campainha, sino e melodia) e ouça a prévia nas configurações. Vem ativado, e você pode desligar
+- 🙁 **Só avisar** — prefere sem desafios? Um banner discreto aparece no canto
+- 😴 **Soneca** — adie o próximo aviso em 5 minutos quando estiver no meio de algo importante
+- 📊 **Progresso do dia** — contador de pausas concluídas
+- 🌙 **Tema claro/escuro**
+- 💾 **Sem cadastro, sem servidor** — tudo fica salvo no seu navegador (localStorage)
+
+## 🧩 Os 12 desafios
+
+Olhar 20 segundos para longe · Olhar pela janela · Fechar os olhos · Piscar devagar · Alongar o pescoço · Levantar e caminhar · Beber água · Alongar os braços · Achar 3 objetos distantes · Olhar algo natural · Buscar luz natural · Sacudir o corpo
+
+## 🛠️ Stack
+
+- [Next.js 16](https://nextjs.org) (App Router) + TypeScript
+- Tailwind CSS v4 + shadcn/ui
+- framer-motion · next-themes · lucide-react
+- Web Audio API (sons sintetizados, zero arquivos externos)
+- Notifications API
+
+## 🚀 Rodando localmente
+
+```bash
+bun install
+bun run dev
+```
+
+Abra [http://localhost:3000](http://localhost:3000).
+
+## ☁️ Deploy
+
+Hospedado na [Vercel](https://vercel.com) → **https://pausa-20.vercel.app**
+
+## 🧪 Desenvolvimento
+
+```
+bun install && bunx prisma generate && bun run lint && bun run build
+```
+
+O CI roda o pipeline completo a cada push (lockfile congelado → cliente Prisma → ESLint → build do Next como smoke real + higiene contra segredos).
+
+## 🎨 Identidade — RESPIRO
+
+**Quicksand** (arredondada e calma — a cara de quem manda descansar) no app, **JetBrains Mono** no relógio e números tabulares. Zero fonte-default-de-template (Geist/Inter).
