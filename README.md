@@ -58,6 +58,6 @@ bun install && bunx prisma generate && bun run lint && bun run build
 
 O CI roda o pipeline completo a cada push (lockfile congelado → cliente Prisma → ESLint → build do Next como smoke real + higiene contra segredos).
 
-## 🎨 Identidade — RESPIRO (operação CRA)
+## 🎨 Identidade — RESPIRO
 
 **Quicksand** (arredondada e calma — a cara de quem manda descansar) no app, **JetBrains Mono** no relógio e números tabulares. Zero fonte-default-de-template (Geist/Inter).

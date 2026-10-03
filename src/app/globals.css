@@ -118,7 +118,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    /* CRA: o template nunca ligou a fonte no body — Quicksand vale de verdade */
+    /* o template nunca ligou a fonte no body — Quicksand vale de verdade */
     font-family: var(--font-quicksand), ui-sans-serif, system-ui, sans-serif;
   }
 }
