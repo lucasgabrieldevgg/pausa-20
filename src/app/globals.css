@@ -153,3 +153,6 @@
 .animate-breathe {
   animation: breathe 3s ease-in-out infinite;
 }
+
+/* browser surfaces */
+::selection{background:color-mix(in oklab,var(--primary) 30%,transparent)}
